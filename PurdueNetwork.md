@@ -107,7 +107,9 @@ The URI configured in the whitelist are the following (for more details, please 
 - .azure-devices.net
 - .global.azure-devices-provisioning.net
 - .cdn.mscr.io
-
+- .dcsfe.canary.adu.microsoft.com
+- .dcsfe.prod.adu.microsoft.com
+- .prod.do.dsp.mp.microsoft.com
 Monitoring the Squid access logs can be helpful in trying to determine the URI being accessed by a deployment. To do this execute the tail command as follows on the IT Proxy machine:
 
 ```bash​ 

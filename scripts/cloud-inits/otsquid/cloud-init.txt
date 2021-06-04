@@ -18,6 +18,8 @@ write_files:
       # Squid normally listens to port 3128
       http_port 3128
 
+      # Squid will use Port 3129 for MCC
+      http_port 3129 accel allow-direct
       # allow all requests
       http_access allow all
 

@@ -18,6 +18,9 @@ write_files:
       # Squid normally listens to port 3128
       http_port 3128
 
+      # Squid will use Port 3129 for MCC
+      http_port 3129 accel allow-direct
+
       # Setup Most local Network Ranges
       acl localnet src 10.0.0.0/8  # Possible internal network
       acl localnet src 172.16.0.0/12 # Possible internal network
@@ -57,6 +60,9 @@ write_files:
       .azure-devices.net
       .global.azure-devices-provisioning.net
       .cdn.mscr.io
+      .dcsfe.canary.adu.microsoft.com
+      .dcsfe.prod.adu.microsoft.com
+      .prod.do.dsp.mp.microsoft.com
 runcmd:
   - |
       set -x
