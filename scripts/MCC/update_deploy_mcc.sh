@@ -72,7 +72,9 @@ outputFile=$(echo $inputTemplateFile | cut -d "-" -f1)".json"
 cp $inputTemplateFile $outputFile
 
 #Replace CustomerID, cacheNode_ID, CustomerKey with Guid
-idKey=$(uuidgen)
+#idKey=$(uuidgen)
+xcid=`date +"%s"`
+idKey="IDKeyL5"$xcid
 sed -i "s/#placeholder-guid#/$idKey/" $outputFile
 
 #replace X_CID
@@ -100,8 +102,9 @@ sed -i "s/#placeholder-containerusername#/$containerUserName/" $outputFile
 sed -i "s/#placeholder-containerpassword#/$escapedContainerPassword/" $outputFile 
 
 #Replace CustomerID, cacheNode_ID, CustomerKey with Guid
-idKey=$(uuidgen)
-echo "Echoing IDKEY value" $idKey
+#idKey=$(uuidgen)
+xcid=`date +"%s"`
+idKey="IDKeyL4"$xcid
 sed -i "s/#placeholder-guid#/$idKey/" $outputFile
 
 #replace X_CID
@@ -129,8 +132,9 @@ sed -i "s/#placeholder-containerusername#/$containerUserName/" $outputFile
 sed -i "s/#placeholder-containerpassword#/$escapedContainerPassword/" $outputFile 
 
 #Replace CustomerID, cacheNode_ID, CustomerKey with Guid
-idKey=$(uuidgen)
-echo "Echoing IDKEY value" $idKey
+#idKey=$(uuidgen)
+xcid=`date +"%s"`
+idKey="IDKeyL5"$xcid
 sed -i "s/#placeholder-guid#/$idKey/" $outputFile
 
 #replace X_CID
@@ -140,6 +144,6 @@ sed -i "s/#placeholder-xcid#/${xcid}/" $outputFile
 #replace MCCImagePath $containerRegistry*.#placeholder-mccimagepath# replaced by $containerRegistry*./mcc/linux/iot/mcc-ubuntu-iot-amd64:1.2.1.70
 sed -i "s/#placeholder-mccimagepath#/$escapedContainerImageSubPath/" $outputFile
 
-az iot edge set-modules --device-id L3-edge --hub-name DOADUHub --content "L3EdgeModule.json"
-az iot edge set-modules --device-id L4-edge --hub-name DOADUHub --content "L4EdgeModule.json"
 az iot edge set-modules --device-id L5-edge --hub-name DOADUHub --content "L5EdgeModule.json"
+az iot edge set-modules --device-id L4-edge --hub-name DOADUHub --content "L4EdgeModule.json"
+az iot edge set-modules --device-id L3-edge --hub-name DOADUHub --content "L3EdgeModule.json"

@@ -60,6 +60,7 @@ write_files:
       .azure-devices.net
       .global.azure-devices-provisioning.net
       .cdn.mscr.io
+      .windowsupdate.com
       .dcsfe.canary.adu.microsoft.com
       .dcsfe.prod.adu.microsoft.com
       .prod.do.dsp.mp.microsoft.com
