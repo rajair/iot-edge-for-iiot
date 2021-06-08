@@ -1,0 +1,110 @@
+{
+    "modulesContent": {
+        "$edgeAgent": {
+            "properties.desired": {
+                "modules": {
+                    "MCCModuleL3Edge": {
+                        "settings": {
+                            "image": "$upstream:443#placeholder-mccimagepath#",
+                            "createOptions": "{\"HostConfig\":{\"Binds\":[\"/MicrosoftConnectedCache/:/nginx/cache1/\"],\"PortBindings\":{\"8081/tcp\":[{\"HostPort\":\"80\"}],\"5000/tcp\":[{\"HostPort\":\"5100\"}]}}}"
+                        },
+                        "type": "docker",
+                        "env": {
+                            "CACHE_NODE_ID": {
+                                "value": "#placeholder-guid#"
+                            },
+                            "CUSTOMER_ID": {
+                                "value": "#placeholder-guid#"
+                            },
+                            "CUSTOMER_KEY": {
+                                "value": "#placeholder-guid#"
+                            },
+                            "STORAGE_1_SIZE_GB": {
+                                "value": "10"
+                            },
+                            "CACHEABLE_CUSTOM_1_HOST": {
+                                "value": "dcsfe.canary.adu.microsoft.com:80"
+                            },
+                            "CACHEABLE_CUSTOM_1_CANONICAL": {
+                                "value": "dcsfe.canary.adu.microsoft.com"
+                            },
+                            "CACHEABLE_CUSTOM_2_HOST": {
+                                "value": "eastus2euap.dcsfe.prod.adu.microsoft.com:80"
+                            },
+                            "CACHEABLE_CUSTOM_2_CANONICAL": {
+                                "value": "eastus2euap.dcsfe.prod.adu.microsoft.com"
+                            },
+                            "X_CID": {
+                                "value": "#placeholder-xcid#"
+                            },
+                            "ENV": {
+                                "value": "Prod"
+                            },
+                            "UPSTREAM_HOST": {
+                                "value": "10.16.6.4"
+                            },
+                            "UPSTREAM_PROXY": {
+                                "value": "10.16.5.4:3129"
+                            }
+                        },
+                        "status": "running",
+                        "restartPolicy": "always",
+                        "version": "1.0"
+                    }
+                },
+                "runtime": {
+                    "settings": {
+                        "minDockerVersion": "v1.25"
+                    },
+                    "type": "docker"
+                },
+                "schemaVersion": "1.0",
+                "systemModules": {
+                    "edgeAgent": {
+                        "settings": {
+                            "image": "$upstream:443/azureiotedge-agent:1.2",
+                            "createOptions": "{}"
+                        },
+                        "type": "docker",
+                        "env": {
+                            "https_proxy": {
+                                "value": "http://10.16.5.4:3128"
+                            }
+                        }
+                    },
+                    "edgeHub": {
+                        "settings": {
+                            "image": "$upstream:443/azureiotedge-hub:1.2",
+                            "createOptions": "{\"HostConfig\": {\"PortBindings\": {\"5671/tcp\": [{\"HostPort\": \"5671\"}],\"8883/tcp\": [{\"HostPort\": \"8883\"}],\"443/tcp\": [{\"HostPort\": \"443\"}]}}}"
+                        },
+                        "type": "docker",
+                        "env": {
+                            "experimentalFeatures:enabled": {
+                                "value": true
+                            },
+                            "experimentalFeatures:nestedEdgeEnabled": {
+                                "value": true
+                            },
+                            "https_proxy": {
+                                "value": "http://10.16.5.4:3128"
+                            }
+                        },
+                        "status": "running",
+                        "restartPolicy": "always"
+                    }
+                }
+            }
+        },
+        "$edgeHub": {
+            "properties.desired": {
+                "routes": {
+                    "ToUpstream": "FROM /messages/* INTO $upstream"
+                },
+                "schemaVersion": "1.1",
+                "storeAndForwardConfiguration": {
+                    "timeToLiveSecs": 7200
+                }
+            }
+        }
+    }
+}
