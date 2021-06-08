@@ -15,7 +15,6 @@ function show_help() {
    echo
 }
 
-show_help
 
 # Get arguments
 while :; do
@@ -66,6 +65,7 @@ escapedContainerPassword="$(echo "$containerPassword" | sed -e 's/[()&/]/\\&/g')
 escapedContainerImageSubPath="$(echo "$containerImageSubPath" | sed -e 's/[()&/]/\\&/g')"
 
 # ***** L3Edge *****
+echo "***** Update L3-Edge *****"
 #Copy the Template to the outputFilePath and Update
 inputTemplateFile="./L3EdgeModule-Template.json"
 outputFile=$(echo $inputTemplateFile | cut -d "-" -f1)".json"
@@ -87,6 +87,7 @@ sed -i "s/#placeholder-mccimagepath#/$escapedContainerImageSubPath/" $outputFile
 
 
 # ***** L4Edge *****
+echo "***** Update L4-Edge *****"
 #Copy the Template to the outputFilePath and Update
 inputTemplateFile="./L4EdgeModule-Template.json"
 outputFile=$(echo $inputTemplateFile | cut -d "-" -f1)".json"
@@ -117,6 +118,7 @@ sed -i "s/#placeholder-mccimagepath#/$escapedContainerImageSubPath/" $outputFile
 
 
 # ***** L5Edge *****
+echo "***** Update L5-Edge *****"
 #Copy the Template to the outputFilePath and Update
 inputTemplateFile="L5EdgeModule-Template.json"
 outputFile=$(echo $inputTemplateFile | cut -d "-" -f1)".json"
@@ -144,6 +146,13 @@ sed -i "s/#placeholder-xcid#/${xcid}/" $outputFile
 #replace MCCImagePath $containerRegistry*.#placeholder-mccimagepath# replaced by $containerRegistry*./mcc/linux/iot/mcc-ubuntu-iot-amd64:1.2.1.70
 sed -i "s/#placeholder-mccimagepath#/$escapedContainerImageSubPath/" $outputFile
 
-az iot edge set-modules --device-id L5-edge --hub-name DOADUHub --content "L5EdgeModule.json"
-az iot edge set-modules --device-id L4-edge --hub-name DOADUHub --content "L4EdgeModule.json"
-az iot edge set-modules --device-id L3-edge --hub-name DOADUHub --content "L3EdgeModule.json"
+echo "Set the Modules for L5, L4 and L3"
+az iot edge set-modules --device-id L5-edge --hub-name $hubName --content "L5EdgeModule.json"
+az iot edge set-modules --device-id L4-edge --hub-name $hubName --content "L4EdgeModule.json"
+az iot edge set-modules --device-id L3-edge --hub-name $hubName --content "L3EdgeModule.json"
+
+echo "Wait for 2 Minutes for Modules to be running"
+sleep 2m
+az iot hub module-identity list --device-id L5-edge --hub-name $hubName
+az iot hub module-identity list --device-id L4-edge --hub-name $hubName
+az iot hub module-identity list --device-id L3-edge --hub-name $hubName
