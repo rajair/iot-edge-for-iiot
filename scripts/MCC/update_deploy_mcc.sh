@@ -148,11 +148,15 @@ sed -i "s/#placeholder-mccimagepath#/$escapedContainerImageSubPath/" $outputFile
 
 echo "Set the Modules for L5, L4 and L3"
 az iot edge set-modules --device-id L5-edge --hub-name $hubName --content "L5EdgeModule.json"
+echo "Wait for 1 Minute"
+sleep 1m
 az iot edge set-modules --device-id L4-edge --hub-name $hubName --content "L4EdgeModule.json"
+echo "Wait for 1 Minute"
+sleep 1m
 az iot edge set-modules --device-id L3-edge --hub-name $hubName --content "L3EdgeModule.json"
 
-echo "Wait for 2 Minutes for Modules to be running"
-sleep 2m
+echo "Wait for 3 Minutes for Modules to be running"
+sleep 3m
 az iot hub module-identity list --device-id L5-edge --hub-name $hubName
 az iot hub module-identity list --device-id L4-edge --hub-name $hubName
 az iot hub module-identity list --device-id L3-edge --hub-name $hubName
