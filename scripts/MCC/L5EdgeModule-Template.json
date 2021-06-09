@@ -12,7 +12,7 @@
                         "version": "1.0",
                         "env": {
                             "REGISTRY_PROXY_REMOTEURL": {
-                                "value": "https://#placeholder-containername#.azurecr.io:443"
+                                "value": "https://#placeholder-containeraddress#:443"
                             },
                             "REGISTRY_PROXY_USERNAME": {
                                 "value": "#placeholder-containerusername#"
@@ -30,7 +30,7 @@
                     },
                     "iotedgeApiProxy": {
                         "settings": {
-                            "image": "#placeholder-containername#.azurecr.io/azureiotedge-api-proxy:1.0",
+                            "image": "#placeholder-containeraddress#/azureiotedge-api-proxy:1.0",
                             "createOptions": "{\"HostConfig\": {\"PortBindings\": {\"443/tcp\": [{\"HostPort\": \"443\"}]}}}"
                         },
                         "type": "docker",
@@ -49,7 +49,7 @@
                     },
                     "MCCModuleL5Edge": {
                         "settings": {
-                            "image": "#placeholder-containername#.azurecr.io#placeholder-mccimagepath#",
+                            "image": "#placeholder-containeraddress##placeholder-mccimagepath#",
                             "createOptions": "{\"HostConfig\":{\"Binds\":[\"/MicrosoftConnectedCache1/:/nginx/cache1/\"],\"PortBindings\":{\"8081/tcp\":[{\"HostPort\":\"80\"}],\"5000/tcp\":[{\"HostPort\":\"5100\"}]}}}"
                         },
                         "type": "docker",
@@ -98,7 +98,7 @@
                         "minDockerVersion": "v1.25",
                         "registryCredentials": {
                             "iotedgeforiiotACR": {
-                                "address": "#placeholder-containername#.azurecr.io",
+                                "address": "#placeholder-containeraddress#",
                                 "password": "#placeholder-containerpassword#",
                                 "username": "#placeholder-containerusername#"
                             }
@@ -110,7 +110,7 @@
                 "systemModules": {
                     "edgeAgent": {
                         "settings": {
-                            "image": "#placeholder-containername#.azurecr.io/azureiotedge-agent:1.2",
+                            "image": "#placeholder-containeraddress#/azureiotedge-agent:1.2",
                             "createOptions": "{}"
                         },
                         "type": "docker",
@@ -122,7 +122,7 @@
                     },
                     "edgeHub": {
                         "settings": {
-                            "image": "#placeholder-containername#.azurecr.io/azureiotedge-hub:1.2",
+                            "image": "#placeholder-containeraddress#/azureiotedge-hub:1.2",
                             "createOptions": "{\"HostConfig\": {\"PortBindings\": {\"5671/tcp\": [{\"HostPort\": \"5671\"}],\"8883/tcp\": [{\"HostPort\": \"8883\"}]}}}"
                         },
                         "type": "docker",

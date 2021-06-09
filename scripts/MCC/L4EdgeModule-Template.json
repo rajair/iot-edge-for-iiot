@@ -72,7 +72,7 @@
                         "minDockerVersion": "v1.25",
                         "registryCredentials": {
                             "iotedgeforiiotACR": {
-                                "address": "#placeholder-containername#.azurecr.io",
+                                "address": "#placeholder-containeraddress#",
                                 "password": "#placeholder-containerpassword#",
                                 "username": "#placeholder-containerusername#"
                             }

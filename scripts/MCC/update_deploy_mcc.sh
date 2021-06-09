@@ -3,18 +3,28 @@
 function show_help() {
    # Display Help
    echo "Run this script to update MCC manifest"
-   echo
-   echo "Syntax: sudo bash ./update_deploy_mcc.sh -containerName='containerregistry' -containerUserName=containerregistry -containerPassword=$password -containerImageSubPath='/mcc/linux/iot/mcc-ubuntu-iot-amd64:1.2.1.70' -hubName=AduHub"
+   echo "Option 1: Get ContainerUserName and Pasword from ACR.Env"
+   echo "Syntax: sudo bash ./update_deploy_mcc.sh  -containerImageSubPath='/mcc/linux/iot/mcc-ubuntu-iot-amd64:1.2.1.70' -hubName=AduHub"
+   echo "Option 2: Pass the Container Names explicitly"
+   echo "Syntax: sudo bash ./update_deploy_mcc.sh -containerAddress='containerregistry.azure.io' -containerUserName=containerregistry -containerPassword=$password -containerImageSubPath='/mcc/linux/iot/mcc-ubuntu-iot-amd64:1.2.1.70' -hubName=AduHub"
    echo ""
    echo ""
-   echo "-containerName           Name of the registry container that was created"
-   echo "-containerUserName       UserName for the RegistryContianer"
-   echo "-containerPassword       Password for the Container"
    echo "-containerImageSubPath   Image Subpath for MCC e.g. '/mcc/linux/iot/mcc-ubuntu-iot-amd64:1.2.1.70' where full path is containerregistry.azurecr.io/mcc/linux/iot/mcc-ubuntu-iot-amd64:1.2.1.70 "
    echo "-hubName                 HubName that is used e.g. DOAduHub"
+   echo ""
+   echo "-containerAddress           Name of the registry container that was created"
+   echo "-containerUserName       UserName for the RegistryContianer"
+   echo "-containerPassword       Password for the Container"
+   echo ""
    echo
 }
 
+source ../../ACR.env
+
+#Get the Value from ACR, if it is not passed and the values are empty then we will fail in parameter check
+containerPassword=$(echo $ACR_PASSWORD)
+containerUserName=$(echo $ACR_USERNAME)
+containerAddress=$(echo $ACR_ADDRESS)
 
 # Get arguments
 while :; do
@@ -22,11 +32,11 @@ while :; do
         -h|-\?|--help)
             show_help
             exit;;
-        -containerName=?*)
-            containerName=${1#*=}
+        -containerAddress=?*)
+            containerAddress=${1#*=}
             ;;
-        -containerName=)
-            echo "Missing containerName Exiting."
+        -containerAddress=)
+            echo "Missing containerAddress Exiting."
             exit;;
         -containerUserName=?*)
             containerUserName=${1#*=}
@@ -94,7 +104,7 @@ outputFile=$(echo $inputTemplateFile | cut -d "-" -f1)".json"
 cp $inputTemplateFile $outputFile
 
 #Replace Container Name
-sed -i "s/#placeholder-containername#/${containerName}/" $outputFile 
+sed -i "s/#placeholder-containeraddress#/${containerAddress}/" $outputFile 
 
 #Replace containerUserName
 sed -i "s/#placeholder-containerusername#/$containerUserName/" $outputFile 
@@ -125,7 +135,7 @@ outputFile=$(echo $inputTemplateFile | cut -d "-" -f1)".json"
 cp $inputTemplateFile $outputFile
 
 #Replace Container Name
-sed -i "s/#placeholder-containername#/${containerName}/" $outputFile 
+sed -i "s/#placeholder-containeraddress#/${containerAddress}/" $outputFile 
 
 #Replace containerUserName
 sed -i "s/#placeholder-containerusername#/$containerUserName/" $outputFile 
